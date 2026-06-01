@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>V!VAH.films — Sua história, eternizada em filme</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+:root {
+  --black:#020203; --dark:#08080d; --surface:#0f0f18;
+  --pink:#f472b6; --violet:#a855f7; --blue:#818cf8; --gold:#f5c06a;
+  --text:#f0eee8; --muted:#6b6878;
+}
+body { background:var(--black); color:var(--text); font-family:'Montserrat',sans-serif; font-weight:300; overflow-x:hidden; }
+
+.cursor { position:fixed; width:10px; height:10px; border-radius:50%; background:var(--pink); pointer-events:none; z-index:9999; transform:translate(-50%,-50%); mix-blend-mode:difference; transition:width .3s,height .3s; }
+.cursor-ring { position:fixed; width:44px; height:44px; border-radius:50%; border:1px solid rgba(244,114,182,0.45); pointer-events:none; z-index:9998; transform:translate(-50%,-50%); transition:width .4s,height .4s; }
+#particles { position:fixed; inset:0; z-index:0; pointer-events:none; }
+
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:800;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:24px 60px; transition:all .6s;
+}
+nav.solid { background:rgba(2,2,3,0.94); backdrop-filter:blur(20px); border-bottom:1px solid rgba(255,255,255,0.05); padding:16px 60px; }
+.nav-logo { font-family:'Cormorant',serif; font-size:22px; font-weight:600; letter-spacing:3px; }
+.nav-logo span { color:var(--pink); font-style:italic; }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a { font-size:11px; font-weight:500; letter-spacing:2.5px; text-transform:uppercase; color:rgba(240,238,232,0.50); text-decoration:none; transition:color .3s; }
+.nav-links a:hover { color:var(--text); }
+.nav-cta { background:linear-gradient(135deg,var(--pink),var(--violet)); color:white; border:none; padding:11px 24px; font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; cursor:pointer; font-family:'Montserrat',sans-serif; clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); transition:all .3s; }
+.nav-cta:hover { opacity:.85; transform:translateY(-1px); }
+
+.hero { position:relative; height:100vh; min-height:700px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; z-index:1; background:radial-gradient(ellipse 120% 80% at 50% 0%,rgba(168,85,247,0.22) 0%,transparent 55%),radial-gradient(ellipse 80% 60% at 15% 60%,rgba(244,114,182,0.14) 0%,transparent 50%),radial-gradient(ellipse 60% 80% at 85% 70%,rgba(129,140,248,0.10) 0%,transparent 50%),linear-gradient(180deg,#020203 0%,#06060e 100%); }
+.hero-bg::after { content:''; position:absolute; inset:0; background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,255,255,0.012) 3px,rgba(255,255,255,0.012) 4px); pointer-events:none; }
+.hero-content { position:relative; z-index:3; padding:0 20px; }
+.hero-eyebrow { font-size:11px; font-weight:500; letter-spacing:5px; text-transform:uppercase; color:var(--pink); margin-bottom:32px; display:flex; align-items:center; justify-content:center; gap:16px; animation:fadeUp .9s .3s ease both; }
+.hero-eyebrow::before,.hero-eyebrow::after { content:''; width:40px; height:1px; background:linear-gradient(90deg,transparent,var(--pink)); }
+.hero-eyebrow::after { transform:rotate(180deg); }
+.hero h1 { font-family:'Cormorant',serif; font-size:clamp(60px,10vw,130px); font-weight:300; line-height:.92; letter-spacing:-2px; margin-bottom:12px; animation:fadeUp .9s .5s ease both; }
+.hero h1 .line2 { font-style:italic; font-weight:600; background:linear-gradient(135deg,var(--pink) 0%,var(--violet) 50%,var(--blue) 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; display:block; filter:drop-shadow(0 0 60px rgba(244,114,182,0.35)); }
+.hero h1 .line3 { display:block; font-weight:200; opacity:.9; }
+.hero-sub { font-size:14px; font-weight:300; letter-spacing:1px; color:rgba(240,238,232,0.55); max-width:480px; margin:28px auto 48px; line-height:1.8; animation:fadeUp .9s .7s ease both; }
+.hero-actions { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; animation:fadeUp .9s .9s ease both; }
+.btn-main { background:linear-gradient(135deg,var(--pink),var(--violet)); color:white; border:none; padding:16px 40px; font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; cursor:pointer; font-family:'Montserrat',sans-serif; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px)); box-shadow:0 20px 60px rgba(168,85,247,0.35); transition:all .3s; text-decoration:none; display:inline-block; }
+.btn-main:hover { transform:translateY(-3px); box-shadow:0 30px 80px rgba(244,114,182,0.5); }
+.btn-ghost { background:none; border:1px solid rgba(255,255,255,0.15); color:rgba(240,238,232,0.7); padding:16px 40px; font-size:11px; font-weight:500; letter-spacing:3px; text-transform:uppercase; cursor:pointer; font-family:'Montserrat',sans-serif; clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px)); transition:all .3s; text-decoration:none; display:inline-block; }
+.btn-ghost:hover { border-color:rgba(244,114,182,0.5); color:var(--text); }
+.hero-scroll { position:absolute; bottom:40px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:10px; z-index:3; animation:fadeUp .9s 1.2s ease both; }
+.hero-scroll span { font-size:9px; letter-spacing:4px; text-transform:uppercase; color:var(--muted); }
+.scroll-mouse { width:22px; height:36px; border:1px solid rgba(255,255,255,0.2); border-radius:11px; display:flex; justify-content:center; padding-top:6px; }
+.scroll-dot { width:3px; height:6px; background:var(--pink); border-radius:2px; animation:scrollDot 2s ease-in-out infinite; }
+@keyframes scrollDot { 0%,100%{transform:translateY(0);opacity:1} 80%{transform:translateY(14px);opacity:0} }
+
+section { position:relative; z-index:2; }
+.s-label { font-size:10px; letter-spacing:5px; text-transform:uppercase; font-weight:600; background:linear-gradient(90deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+.s-label::before { content:''; width:30px; height:1px; background:linear-gradient(90deg,var(--pink),var(--violet)); flex-shrink:0; }
+.s-title { font-family:'Cormorant',serif; font-size:clamp(36px,5vw,64px); font-weight:300; letter-spacing:-1px; line-height:1.05; margin-bottom:16px; }
+.s-title em { font-style:italic; font-weight:600; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.s-sub { color:var(--muted); font-size:14px; line-height:1.8; max-width:520px; }
+.reveal { opacity:0; transform:translateY(32px); transition:opacity .8s ease,transform .8s ease; }
+.reveal.in { opacity:1; transform:translateY(0); }
+
+/* ABOUT */
+.about-section { padding:140px 60px; display:grid; grid-template-columns:1fr 1fr; gap:100px; align-items:center; background:var(--dark); }
+.about-p { color:rgba(240,238,232,0.58); font-size:15px; line-height:1.9; margin-bottom:18px; }
+.about-pill { display:inline-flex; align-items:center; gap:10px; border:1px solid rgba(244,114,182,0.25); padding:8px 18px; margin-top:24px; font-size:11px; font-weight:500; letter-spacing:2px; text-transform:uppercase; color:var(--pink); }
+.about-pill::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--pink); box-shadow:0 0 8px var(--pink); }
+.about-visual { position:relative; }
+.about-frame { width:100%; aspect-ratio:4/5; border:1px solid rgba(255,255,255,0.06); background:linear-gradient(145deg,#0f0d18 0%,#150f22 50%,#0a0810 100%); position:relative; overflow:hidden; }
+.about-frame::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 40% 30%,rgba(168,85,247,0.18) 0%,transparent 55%),radial-gradient(ellipse at 70% 75%,rgba(244,114,182,0.12) 0%,transparent 50%); }
+.about-frame-bg { position:absolute; bottom:32px; left:32px; font-family:'Cormorant',serif; font-size:80px; font-weight:700; color:rgba(255,255,255,0.03); letter-spacing:-3px; line-height:1; }
+.about-badge { position:absolute; top:28px; right:28px; background:rgba(244,114,182,0.08); border:1px solid rgba(244,114,182,0.2); padding:10px 16px; backdrop-filter:blur(12px); font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--pink); }
+.ac { position:absolute; width:40px; height:40px; border-color:var(--pink); border-style:solid; opacity:.4; }
+.ac-tl { top:-1px; left:-1px; border-width:2px 0 0 2px; }
+.ac-tr { top:-1px; right:-1px; border-width:2px 2px 0 0; }
+.ac-bl { bottom:-1px; left:-1px; border-width:0 0 2px 2px; }
+.ac-br { bottom:-1px; right:-1px; border-width:0 2px 2px 0; }
+.about-float { position:absolute; bottom:-28px; left:-28px; background:rgba(8,8,13,0.92); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.08); padding:20px 32px; display:flex; gap:28px; }
+.af-num { font-family:'Cormorant',serif; font-size:42px; font-weight:600; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.af-label { font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-top:2px; }
+.af-sep { width:1px; background:rgba(255,255,255,0.07); }
+
+/* PARALLAX */
+.par-section { position:relative; height:55vh; min-height:380px; display:flex; align-items:center; justify-content:center; text-align:center; overflow:hidden; }
+.par-bg { position:absolute; inset:-20%; z-index:0; }
+.par-bg-1 { background:radial-gradient(ellipse 100% 80% at 50% 50%,rgba(168,85,247,0.25) 0%,transparent 60%),radial-gradient(ellipse 60% 100% at 20% 50%,rgba(244,114,182,0.15) 0%,transparent 55%),var(--dark); }
+.par-bg-2 { background:radial-gradient(ellipse 100% 80% at 50% 50%,rgba(244,114,182,0.20) 0%,transparent 60%),radial-gradient(ellipse 60% 100% at 80% 50%,rgba(168,85,247,0.12) 0%,transparent 55%),var(--dark); }
+.par-content { position:relative; z-index:2; padding:0 32px; }
+.par-quote { font-family:'Cormorant',serif; font-size:clamp(24px,4vw,52px); font-weight:300; font-style:italic; line-height:1.3; max-width:760px; }
+.par-quote em { font-style:normal; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.par-author { margin-top:20px; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); }
+
+/* SERVICES */
+.svc-section { padding:140px 60px; background:var(--black); }
+.svc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.05); margin-top:64px; }
+.svc { background:var(--black); padding:48px 36px; position:relative; overflow:hidden; transition:background .5s; cursor:default; }
+.svc::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:linear-gradient(90deg,transparent,var(--pink),var(--violet),transparent); transform:scaleX(0); transition:transform .5s; transform-origin:left; }
+.svc:hover::before,.svc.featured::before { transform:scaleX(1); }
+.svc:hover,.svc.featured { background:var(--surface); }
+.svc-n { font-family:'Cormorant',serif; font-size:72px; font-weight:700; color:rgba(255,255,255,0.04); line-height:1; position:absolute; top:20px; right:24px; }
+.svc-icon { font-size:28px; margin-bottom:28px; display:block; }
+.svc-title { font-family:'Cormorant',serif; font-size:26px; font-weight:600; margin-bottom:14px; }
+.svc-desc { font-size:13px; color:var(--muted); line-height:1.8; margin-bottom:24px; }
+.svc-list { list-style:none; display:flex; flex-direction:column; gap:9px; }
+.svc-list li { font-size:12px; color:rgba(240,238,232,0.42); display:flex; align-items:center; gap:10px; }
+.svc-list li::before { content:''; width:16px; height:1px; background:linear-gradient(90deg,var(--pink),var(--violet)); flex-shrink:0; }
+.svc-link { display:inline-flex; align-items:center; gap:8px; margin-top:28px; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--pink); cursor:pointer; transition:gap .3s; text-decoration:none; }
+.svc-link:hover { gap:14px; }
+
+/* PORTFOLIO */
+.port-section { padding:140px 60px; background:var(--dark); }
+.port-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:60px; }
+.ig-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.ig-card { border:1px solid rgba(255,255,255,0.06); background:var(--surface); position:relative; overflow:hidden; transition:transform .5s cubic-bezier(.25,.46,.45,.94),border-color .3s; aspect-ratio:3/4; }
+.ig-card:hover { transform:scale(1.02); border-color:rgba(244,114,182,0.3); }
+.ig-card:hover .ig-over { opacity:1; }
+.ig-f { width:100%; height:100%; position:absolute; inset:0; }
+.ig-f1 { background:linear-gradient(145deg,#12082a,#220a3a,#0d0614); }
+.ig-f2 { background:linear-gradient(145deg,#0a1020,#1a2040,#060c18); }
+.ig-f3 { background:linear-gradient(145deg,#1a0820,#2a1035,#0f0618); }
+.ig-f1::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 40% 40%,rgba(168,85,247,0.25) 0%,transparent 60%); }
+.ig-f2::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 60% 35%,rgba(244,114,182,0.20) 0%,transparent 60%); }
+.ig-f3::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 60%,rgba(129,140,248,0.20) 0%,transparent 60%); }
+.ig-over { position:absolute; inset:0; z-index:3; background:rgba(2,2,3,0.6); backdrop-filter:blur(2px); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity .3s; gap:12px; }
+.ig-over-icon { font-size:32px; }
+.ig-over-text { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.7); }
+.ig-info { position:absolute; bottom:0; left:0; right:0; z-index:2; padding:24px 20px; background:linear-gradient(0deg,rgba(2,2,3,0.95) 0%,transparent 100%); }
+.ig-tag { font-size:9px; letter-spacing:2.5px; text-transform:uppercase; background:linear-gradient(90deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:5px; }
+.ig-name { font-family:'Cormorant',serif; font-size:18px; font-weight:600; }
+.ig-cta { display:flex; align-items:center; justify-content:center; gap:12px; margin-top:48px; padding:20px; border:1px solid rgba(255,255,255,0.07); text-decoration:none; background:rgba(255,255,255,0.02); transition:all .3s; }
+.ig-cta:hover { border-color:rgba(244,114,182,0.3); background:rgba(244,114,182,0.04); }
+.ig-cta-label { font-size:12px; letter-spacing:2px; text-transform:uppercase; color:rgba(240,238,232,0.55); }
+.ig-cta-handle { font-size:14px; font-weight:600; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+
+/* PROCESS */
+.proc-section { padding:140px 60px; background:var(--black); }
+.proc-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.04); margin-top:64px; }
+.proc { background:var(--black); padding:40px 28px; transition:background .4s; cursor:default; position:relative; overflow:hidden; }
+.proc::after { content:''; position:absolute; bottom:0; left:0; right:0; height:2px; background:linear-gradient(90deg,var(--pink),var(--violet)); transform:scaleX(0); transition:transform .4s; transform-origin:left; }
+.proc:hover::after { transform:scaleX(1); }
+.proc:hover { background:var(--surface); }
+.proc-n { font-family:'Cormorant',serif; font-size:52px; font-weight:700; line-height:1; margin-bottom:20px; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; opacity:.3; transition:opacity .3s; }
+.proc:hover .proc-n { opacity:1; }
+.proc-title { font-family:'Cormorant',serif; font-size:22px; font-weight:600; margin-bottom:10px; }
+.proc-desc { font-size:12px; color:var(--muted); line-height:1.8; }
+
+/* PRICING */
+.price-section { padding:140px 60px; background:var(--dark); }
+.plans-wrap { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:rgba(255,255,255,0.05); margin-top:64px; }
+.plan { background:var(--dark); padding:52px 40px; position:relative; overflow:hidden; transition:background .4s; }
+.plan::before { content:''; position:absolute; top:0; left:0; right:0; height:1px; background:rgba(255,255,255,0.07); }
+.plan.featured { background:var(--surface); }
+.plan.featured::before { background:linear-gradient(90deg,transparent,var(--pink),var(--violet),transparent); }
+.plan.featured::after { content:'MAIS ESCOLHIDO'; position:absolute; top:20px; right:20px; font-size:8px; letter-spacing:2px; font-weight:700; background:linear-gradient(135deg,var(--pink),var(--violet)); color:white; padding:5px 12px; }
+.plan-tier { font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--muted); margin-bottom:28px; }
+.plan-price { font-family:'Cormorant',serif; font-size:60px; font-weight:300; letter-spacing:-2px; line-height:1; margin-bottom:4px; }
+.plan-price sup { font-size:22px; vertical-align:super; color:var(--pink); }
+.plan-period { font-size:11px; color:var(--muted); margin-bottom:32px; }
+.plan-line { width:100%; height:1px; background:rgba(255,255,255,0.06); margin-bottom:28px; }
+.plan-feats { list-style:none; display:flex; flex-direction:column; gap:13px; margin-bottom:40px; }
+.plan-feats li { font-size:13px; color:rgba(240,238,232,0.52); display:flex; align-items:center; gap:12px; }
+.plan-feats li::before { content:''; width:14px; height:1px; background:linear-gradient(90deg,var(--pink),var(--violet)); flex-shrink:0; }
+.btn-plan { width:100%; padding:14px; font-size:10px; font-weight:600; letter-spacing:3px; text-transform:uppercase; font-family:'Montserrat',sans-serif; cursor:pointer; transition:all .3s; clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); }
+.btn-plan-o { background:none; border:1px solid rgba(255,255,255,0.12); color:rgba(240,238,232,0.6); }
+.btn-plan-o:hover { border-color:rgba(244,114,182,0.5); color:var(--text); }
+.btn-plan-f { background:linear-gradient(135deg,var(--pink),var(--violet)); border:none; color:white; box-shadow:0 12px 40px rgba(168,85,247,0.35); }
+.btn-plan-f:hover { box-shadow:0 20px 60px rgba(244,114,182,0.5); transform:translateY(-1px); }
+
+/* TEAM */
+.team-section { padding:140px 60px; background:var(--black); }
+.team-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:64px; }
+.member { background:var(--dark); border:1px solid rgba(255,255,255,0.05); padding:40px; display:flex; gap:28px; align-items:flex-start; transition:all .4s; position:relative; overflow:hidden; }
+.member::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(244,114,182,0.04),transparent); opacity:0; transition:opacity .4s; }
+.member:hover::before { opacity:1; }
+.member:hover { border-color:rgba(244,114,182,0.2); }
+.m-avatar { width:72px; height:72px; flex-shrink:0; background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(244,114,182,0.2)); border:1px solid rgba(244,114,182,0.2); display:flex; align-items:center; justify-content:center; font-family:'Cormorant',serif; font-size:28px; font-weight:700; color:var(--pink); }
+.m-name { font-family:'Cormorant',serif; font-size:22px; font-weight:600; margin-bottom:6px; }
+.m-role { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:var(--pink); margin-bottom:12px; }
+.m-bio { font-size:13px; color:var(--muted); line-height:1.7; }
+.m-ig { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:11px; letter-spacing:1px; color:rgba(240,238,232,0.38); text-decoration:none; transition:color .2s; }
+.m-ig:hover { color:var(--pink); }
+
+/* CTA */
+.cta-section { padding:160px 60px; text-align:center; position:relative; overflow:hidden; }
+.cta-bg { position:absolute; inset:0; background:radial-gradient(ellipse 80% 60% at 50% 50%,rgba(168,85,247,0.18) 0%,transparent 65%),radial-gradient(ellipse 50% 80% at 20% 50%,rgba(244,114,182,0.10) 0%,transparent 55%),radial-gradient(ellipse 50% 80% at 80% 50%,rgba(129,140,248,0.08) 0%,transparent 55%),var(--dark); }
+.cta-content { position:relative; z-index:2; }
+.cta-eyebrow { font-size:10px; letter-spacing:5px; text-transform:uppercase; color:var(--pink); margin-bottom:24px; }
+.cta-title { font-family:'Cormorant',serif; font-size:clamp(42px,7vw,88px); font-weight:300; letter-spacing:-2px; line-height:1.0; margin-bottom:24px; }
+.cta-title em { font-style:italic; font-weight:600; background:linear-gradient(135deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+.cta-sub { font-size:14px; color:var(--muted); max-width:500px; margin:0 auto 52px; line-height:1.8; }
+.cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.cta-phones { display:flex; gap:24px; justify-content:center; margin-top:40px; flex-wrap:wrap; }
+.cta-phone { display:flex; align-items:center; gap:10px; font-size:13px; color:rgba(240,238,232,0.50); text-decoration:none; transition:color .2s; }
+.cta-phone:hover { color:var(--pink); }
+.cta-phone-icon { width:36px; height:36px; border:1px solid rgba(255,255,255,0.1); display:flex; align-items:center; justify-content:center; font-size:14px; transition:border-color .2s; }
+.cta-phone:hover .cta-phone-icon { border-color:rgba(244,114,182,0.4); }
+
+/* FOOTER */
+footer { background:var(--black); border-top:1px solid rgba(255,255,255,0.05); padding:60px; display:grid; grid-template-columns:1.5fr 1fr 1fr 1fr; gap:60px; position:relative; z-index:2; }
+.f-logo { font-family:'Cormorant',serif; font-size:28px; font-weight:600; letter-spacing:3px; margin-bottom:14px; }
+.f-logo span { color:var(--pink); font-style:italic; }
+.f-tagline { font-size:13px; color:var(--muted); line-height:1.7; max-width:240px; }
+.f-col-title { font-size:9px; letter-spacing:4px; text-transform:uppercase; background:linear-gradient(90deg,var(--pink),var(--violet)); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:20px; }
+.f-links { list-style:none; display:flex; flex-direction:column; gap:12px; }
+.f-links a { font-size:13px; color:rgba(240,238,232,0.38); text-decoration:none; transition:color .2s; }
+.f-links a:hover { color:var(--text); }
+.f-bottom { border-top:1px solid rgba(255,255,255,0.04); padding:24px 60px; display:flex; justify-content:space-between; align-items:center; background:var(--black); position:relative; z-index:2; }
+.f-copy { font-size:11px; color:var(--muted); }
+.f-socials { display:flex; gap:20px; }
+.f-socials a { font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color .2s; }
+.f-socials a:hover { color:var(--pink); }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+
+@media(max-width:900px){
+  nav{padding:18px 20px;} nav.solid{padding:14px 20px;}
+  .nav-links{display:none;}
+  .about-section{grid-template-columns:1fr;gap:48px;padding:80px 20px;}
+  .svc-grid,.proc-grid,.plans-wrap{grid-template-columns:1fr;}
+  .ig-grid,.team-grid{grid-template-columns:1fr;}
+  .svc-section,.port-section,.proc-section,.price-section,.team-section,.cta-section{padding:80px 20px;}
+  footer{grid-template-columns:1fr 1fr;padding:48px 20px;gap:40px;}
+  .f-bottom{padding:20px;flex-direction:column;gap:12px;}
+  .port-header{flex-direction:column;align-items:flex-start;gap:16px;}
+  .about-float{position:relative;bottom:auto;left:auto;margin-top:20px;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav id="nav">
+  <div class="nav-logo">V!VAH<span>.films</span></div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#planos">Planos</a></li>
+    <li><a href="#equipe">Equipe</a></li>
+  </ul>
+  <button class="nav-cta" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Agendar</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Filmes de casamento & eventos</div>
+    <h1>
+      Sua história,<br>
+      <span class="line2">eternizada</span>
+      <span class="line3">em filme.</span>
+    </h1>
+    <p class="hero-sub">Capturamos cada emoção com uma visão cinematográfica única — e transformamos o seu dia em uma obra que vai emocionar para sempre.</p>
+    <div class="hero-actions">
+      <button class="btn-main" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Agendar conversa</button>
+      <button class="btn-ghost" onclick="document.getElementById('portfolio').scrollIntoView({behavior:'smooth'})">Ver portfólio</button>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+    <span>Role para baixo</span>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="about-section" id="sobre">
+  <div>
+    <div class="s-label reveal">Sobre nós</div>
+    <div class="s-title reveal">Nascemos em <em>2026</em><br>para eternizar amor.</div>
+    <p class="about-p reveal" style="margin-top:20px">Somos uma produtora audiovisual fundada em 2026 com uma missão clara: transformar os momentos mais importantes da sua vida em filmes que emocionam para sempre.</p>
+    <p class="about-p reveal">Nascemos com um olhar fresco, técnica apurada e uma paixão genuína por histórias de amor. Cada projeto é tratado como único — porque ele é.</p>
+    <div class="about-pill reveal">Desde 2026 · São Paulo, SP</div>
+  </div>
+  <div class="about-visual reveal">
+    <div class="about-frame">
+      <div class="about-frame-bg">VIVAH</div>
+      <div class="about-badge">Desde 2026</div>
+      <div class="ac ac-tl"></div><div class="ac ac-tr"></div>
+      <div class="ac ac-bl"></div><div class="ac ac-br"></div>
+    </div>
+    <div class="about-float">
+      <div><div class="af-num">4K</div><div class="af-label">Ultra HD</div></div>
+      <div class="af-sep"></div>
+      <div><div class="af-num">∞</div><div class="af-label">Emoção</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PARALLAX 1 -->
+<div class="par-section"><div class="par-bg par-bg-1" id="pb1"></div>
+  <div class="par-content reveal">
+    <p class="par-quote">"Cada casamento é uma obra-prima única —<br>nossa missão é <em>preservá-la para sempre.</em>"</p>
+    <p class="par-author">— Vivah.films, 2026</p>
+  </div>
+</div>
+
+<!-- SERVIÇOS -->
+<section class="svc-section" id="servicos">
+  <div class="s-label reveal">O que fazemos</div>
+  <div class="s-title reveal">Serviços que<br><em>emocionam</em></div>
+  <div class="svc-grid">
+    <div class="svc featured reveal">
+      <div class="svc-n">01</div>
+      <span class="svc-icon">🎬</span>
+      <div class="svc-title">Filme de Casamento</div>
+      <p class="svc-desc">Um longa-metragem da sua história de amor, editado com trilha sonora personalizada e entregue em 4K.</p>
+      <ul class="svc-list">
+        <li>Edição cinematográfica completa</li>
+        <li>Trilha sonora personalizada</li>
+        <li>Teaser para redes sociais</li>
+        <li>Entrega em 4K Ultra HD</li>
+      </ul>
+      <a class="svc-link" href="#planos">Ver planos →</a>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-n">02</div>
+      <span class="svc-icon">✨</span>
+      <div class="svc-title">Pré-Wedding</div>
+      <p class="svc-desc">Sessão exclusiva para contar a história do casal antes do grande dia, com direção criativa completa.</p>
+      <ul class="svc-list">
+        <li>Locações personalizadas</li>
+        <li>Direção criativa completa</li>
+        <li>Reels e stories inclusos</li>
+        <li>Entrega em 30 dias</li>
+      </ul>
+      <a class="svc-link" href="#planos">Ver planos →</a>
+    </div>
+    <div class="svc reveal">
+      <div class="svc-n">03</div>
+      <span class="svc-icon">🥂</span>
+      <div class="svc-title">Eventos & Celebrações</div>
+      <p class="svc-desc">Aniversários, formaturas e eventos com a mesma qualidade cinematográfica dos nossos filmes de casamento.</p>
+      <ul class="svc-list">
+        <li>Cobertura completa do evento</li>
+        <li>Highlight de até 5 minutos</li>
+        <li>Material para redes sociais</li>
+        <li>Drone disponível</li>
+      </ul>
+      <a class="svc-link" href="#planos">Ver planos →</a>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="port-section" id="portfolio">
+  <div class="port-header">
+    <div>
+      <div class="s-label reveal">Portfólio</div>
+      <div class="s-title reveal">Nos acompanhe<br><em>no Instagram</em></div>
+    </div>
+    <a href="https://instagram.com/vivah.filmss" target="_blank" class="svc-link reveal">Ver todos →</a>
+  </div>
+  <div class="ig-grid">
+    <div class="ig-card reveal"><div class="ig-f ig-f1"></div><div class="ig-over"><div class="ig-over-icon">▶</div><div class="ig-over-text">Ver no Instagram</div></div><div class="ig-info"><div class="ig-tag">Em breve</div><div class="ig-name">Primeiro projeto</div></div></div>
+    <div class="ig-card reveal"><div class="ig-f ig-f2"></div><div class="ig-over"><div class="ig-over-icon">▶</div><div class="ig-over-text">Ver no Instagram</div></div><div class="ig-info"><div class="ig-tag">Em breve</div><div class="ig-name">Pré-Wedding</div></div></div>
+    <div class="ig-card reveal"><div class="ig-f ig-f3"></div><div class="ig-over"><div class="ig-over-icon">▶</div><div class="ig-over-text">Ver no Instagram</div></div><div class="ig-info"><div class="ig-tag">Em breve</div><div class="ig-name">Casamento</div></div></div>
+  </div>
+  <a href="https://instagram.com/vivah.filmss" target="_blank" class="ig-cta">
+    <span style="font-size:20px">📸</span>
+    <span class="ig-cta-label">Portfólio completo em</span>
+    <span class="ig-cta-handle">@vivah.filmss</span>
+    <span class="ig-cta-label">→</span>
+  </a>
+</section>
+
+<!-- PARALLAX 2 -->
+<div class="par-section"><div class="par-bg par-bg-2" id="pb2"></div>
+  <div class="par-content reveal">
+    <p class="par-quote">"Você vive o momento —<br><em>nós garantimos que ele dure para sempre.</em>"</p>
+    <p class="par-author">— Vivah.films</p>
+  </div>
+</div>
+
+<!-- PROCESSO -->
+<section class="proc-section">
+  <div class="s-label reveal">Como trabalhamos</div>
+  <div class="s-title reveal">Do contato ao<br><em>filme eterno</em></div>
+  <div class="proc-grid">
+    <div class="proc reveal"><div class="proc-n">01</div><div class="proc-title">Conversa & Proposta</div><p class="proc-desc">Conhecemos a sua história antes de qualquer coisa. Uma conversa para entender o que faz de vocês únicos.</p></div>
+    <div class="proc reveal"><div class="proc-n">02</div><div class="proc-title">Planejamento Criativo</div><p class="proc-desc">Roteiro visual personalizado com horários e locações para os melhores ângulos de luz.</p></div>
+    <div class="proc reveal"><div class="proc-n">03</div><div class="proc-title">Captação do Dia</div><p class="proc-desc">Atuamos de forma discreta, capturando cada emoção genuína sem interferir na magia do momento.</p></div>
+    <div class="proc reveal"><div class="proc-n">04</div><div class="proc-title">Edição & Entrega</div><p class="proc-desc">Editamos cada frame com cuidado artesanal. Entregamos um filme que vai emocionar por toda a vida.</p></div>
+  </div>
+</section>
+
+<!-- PLANOS -->
+<section class="price-section" id="planos">
+  <div class="s-label reveal">Investimento</div>
+  <div class="s-title reveal">Planos para<br><em>momentos únicos</em></div>
+  <div class="plans-wrap">
+    <div class="plan reveal">
+      <div class="plan-tier">Essencial</div>
+      <div class="plan-price"><sup>R$</sup>2.500</div>
+      <div class="plan-period">pagamento único</div>
+      <div class="plan-line"></div>
+      <ul class="plan-feats">
+        <li>Cobertura de 8h</li>
+        <li>1 cinegrafista</li>
+        <li>Filme completo (15–20 min)</li>
+        <li>Teaser de 2 min</li>
+        <li>Entrega em Full HD</li>
+        <li>Prazo de 60 dias</li>
+      </ul>
+      <button class="btn-plan btn-plan-o" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Solicitar orçamento</button>
+    </div>
+    <div class="plan featured reveal">
+      <div class="plan-tier">Clássico</div>
+      <div class="plan-price"><sup>R$</sup>4.500</div>
+      <div class="plan-period">pagamento único</div>
+      <div class="plan-line"></div>
+      <ul class="plan-feats">
+        <li>Cobertura de 12h</li>
+        <li>2 cinegrafistas</li>
+        <li>Filme completo (20–30 min)</li>
+        <li>Teaser de 3 min</li>
+        <li>Entrega em 4K Ultra HD</li>
+        <li>Drone incluso</li>
+        <li>3 reels para Instagram</li>
+        <li>Prazo de 45 dias</li>
+      </ul>
+      <button class="btn-plan btn-plan-f" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Solicitar orçamento</button>
+    </div>
+    <div class="plan reveal">
+      <div class="plan-tier">Cinematográfico</div>
+      <div class="plan-price"><sup>R$</sup>7.500</div>
+      <div class="plan-period">pagamento único</div>
+      <div class="plan-line"></div>
+      <ul class="plan-feats">
+        <li>Cobertura ilimitada</li>
+        <li>Equipe completa</li>
+        <li>Filme sem limite de duração</li>
+        <li>Pré-wedding incluso</li>
+        <li>Drone + steadicam</li>
+        <li>Trilha original exclusiva</li>
+        <li>Prazo de 30 dias</li>
+      </ul>
+      <button class="btn-plan btn-plan-o" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Solicitar orçamento</button>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPE -->
+<section class="team-section" id="equipe">
+  <div class="s-label reveal">Nossa equipe</div>
+  <div class="s-title reveal">As pessoas por trás<br><em>de cada filme</em></div>
+  <div class="team-grid">
+    <div class="member reveal">
+      <div class="m-avatar">N</div>
+      <div>
+        <div class="m-name">Nicolle</div>
+        <div class="m-role">Diretora & Cinegrafista</div>
+        <p class="m-bio">Apaixonada por capturar emoções reais. Especialista em luz natural e narrativa visual cinematográfica.</p>
+        <a href="https://instagram.com/nicolledslila" target="_blank" class="m-ig">📸 @nicolledslila</a>
+      </div>
+    </div>
+    <div class="member reveal">
+      <div class="m-avatar">M</div>
+      <div>
+        <div class="m-name">Míria</div>
+        <div class="m-role">Cinegrafista & Editora</div>
+        <p class="m-bio">Especializada em edição cinematográfica e na criação de trilhas sonoras que emocionam do início ao fim.</p>
+        <a href="https://instagram.com/miria_bonfaim" target="_blank" class="m-ig">📸 @miria_bonfaim</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS EM BREVE -->
+<div class="par-section" style="background:var(--dark);border-top:1px solid rgba(255,255,255,0.04)">
+  <div class="par-content reveal" style="padding:0 24px">
+    <div class="s-label" style="justify-content:center;margin-bottom:28px">Depoimentos</div>
+    <p class="par-quote">"Em breve, histórias reais de casais<br>que confiaram em nós.<br><em>Seja o primeiro.</em>"</p>
+    <div style="margin-top:36px">
+      <button class="btn-main" onclick="document.getElementById('contato').scrollIntoView({behavior:'smooth'})">Falar conosco</button>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="contato">
+  <div class="cta-bg"></div>
+  <div class="cta-content">
+    <div class="cta-eyebrow">Vamos criar juntos</div>
+    <div class="cta-title reveal">O seu grande dia merece<br>um <em>filme</em> à altura.</div>
+    <p class="cta-sub reveal">Somos novos e por isso oferecemos condições especiais de lançamento. Agende uma conversa sem compromisso — sua história merece ser contada.</p>
+    <div class="cta-btns reveal">
+      <a href="https://wa.me/5514982074158" target="_blank" class="btn-main">WhatsApp agora</a>
+      <a href="https://instagram.com/vivah.filmss" target="_blank" class="btn-ghost">Ver Instagram</a>
+    </div>
+    <div class="cta-phones reveal">
+      <a href="https://wa.me/5514982074158" target="_blank" class="cta-phone"><div class="cta-phone-icon">📱</div><span>(14) 98207-4158</span></a>
+      <a href="https://wa.me/5514997447603" target="_blank" class="cta-phone"><div class="cta-phone-icon">📱</div><span>(14) 99744-7603</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="f-logo">V!VAH<span>.films</span></div>
+    <p class="f-tagline">Produtora audiovisual desde 2026. Eternizamos os momentos mais importantes da sua vida.</p>
+  </div>
+  <div>
+    <div class="f-col-title">Navegação</div>
+    <ul class="f-links">
+      <li><a href="#sobre">Sobre nós</a></li>
+      <li><a href="#servicos">Serviços</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#planos">Planos</a></li>
+      <li><a href="#equipe">Equipe</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="f-col-title">Serviços</div>
+    <ul class="f-links">
+      <li><a href="#servicos">Filme de Casamento</a></li>
+      <li><a href="#servicos">Pré-Wedding</a></li>
+      <li><a href="#servicos">Eventos</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="f-col-title">Contato</div>
+    <ul class="f-links">
+      <li><a href="https://wa.me/5514982074158" target="_blank">(14) 98207-4158</a></li>
+      <li><a href="https://wa.me/5514997447603" target="_blank">(14) 99744-7603</a></li>
+      <li><a href="https://instagram.com/vivah.filmss" target="_blank">@vivah.filmss</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="f-bottom">
+  <div class="f-copy">© 2026 V!VAH.films — Todos os direitos reservados</div>
+  <div class="f-socials">
+    <a href="https://instagram.com/vivah.filmss" target="_blank">@vivah.filmss</a>
+    <a href="https://instagram.com/nicolledslila" target="_blank">@nicolledslila</a>
+    <a href="https://instagram.com/miria_bonfaim" target="_blank">@miria_bonfaim</a>
+  </div>
+</div>
+
+<script>
+// PARTICLES
+const canvas = document.getElementById('particles');
+const ctx = canvas.getContext('2d');
+let W, H;
+function resize(){ W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+resize(); window.addEventListener('resize', resize);
+const cols = ['rgba(244,114,182,','rgba(168,85,247,','rgba(129,140,248,','rgba(245,192,106,'];
+class P {
+  constructor(){ this.reset(true); }
+  reset(init){
+    this.x = Math.random()*W; this.y = init ? Math.random()*H : (Math.random()<.5 ? -5 : H+5);
+    this.s = Math.random()*1.8+0.3; this.vx = (Math.random()-.5)*.4; this.vy = (Math.random()-.5)*.4;
+    this.c = cols[Math.floor(Math.random()*cols.length)]; this.o = Math.random()*.55+.1;
+    this.life=0; this.max=Math.random()*350+200;
+  }
+  update(){ this.x+=this.vx; this.y+=this.vy; this.life++; if(this.life>this.max||this.x<-10||this.x>W+10||this.y<-10||this.y>H+10) this.reset(false); }
+  draw(){ const f=this.life<60?this.life/60:this.life>this.max-60?(this.max-this.life)/60:1; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fillStyle=this.c+(this.o*f)+')'; ctx.fill(); }
+}
+const pts = Array.from({length:130},()=>new P());
+function anim(){
+  ctx.clearRect(0,0,W,H);
+  pts.forEach(p=>{p.update();p.draw();});
+  for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+    const dx=pts[i].x-pts[j].x, dy=pts[i].y-pts[j].y, d=Math.sqrt(dx*dx+dy*dy);
+    if(d<100){ ctx.beginPath(); ctx.moveTo(pts[i].x,pts[i].y); ctx.lineTo(pts[j].x,pts[j].y); ctx.strokeStyle=`rgba(168,85,247,${.07*(1-d/100)})`; ctx.lineWidth=.5; ctx.stroke(); }
+  }
+  requestAnimationFrame(anim);
+}
+anim();
+
+// CURSOR
+const cur = document.getElementById('cursor'), ring = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+(function ac(){ cur.style.left=mx+'px'; cur.style.top=my+'px'; rx+=(mx-rx)*.1; ry+=(my-ry)*.1; ring.style.left=rx+'px'; ring.style.top=ry+'px'; requestAnimationFrame(ac); })();
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('solid',scrollY>80));
+
+// PARALLAX
+window.addEventListener('scroll',()=>{
+  const sy=scrollY;
+  const pb1=document.getElementById('pb1'); if(pb1) pb1.style.transform=`translateY(${sy*.25}px)`;
+  const pb2=document.getElementById('pb2'); if(pb2){ const top=pb2.closest('.par-section').offsetTop; pb2.style.transform=`translateY(${(sy-top)*.2}px)`; }
+});
+
+// REVEAL
+const io=new IntersectionObserver((es)=>es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('in'),i*80);io.unobserve(e.target);}}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
