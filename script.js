@@ -1,6 +1,6 @@
 // Substitua pelo número real com DDI e DDD, somente dígitos (ex.: 55 + DDD + número).
 // Enquanto estiver vazio, o site apresenta o contato real do Instagram.
-const WHATSAPP_NUMBER = '5514982074158';
+const WHATSAPP_NUMBER = '';
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.header nav');
 menuButton.addEventListener('click', () => {
